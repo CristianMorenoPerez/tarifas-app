@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "school-app": {
+    "tarifa-app": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -62,10 +62,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "school-app:build:production"
+              "buildTarget": "tarifa-app:build:production"
             },
             "development": {
-              "buildTarget": "school-app:build:development"
+              "buildTarget": "tarifa-app:build:development"
             }
           },
           "defaultConfiguration": "development"
