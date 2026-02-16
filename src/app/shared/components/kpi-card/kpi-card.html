@@ -1,0 +1,20 @@
+   <p-card [pClass]="'border-surface-border/60 h-full'">
+      <div class="flex items-start justify-between">
+        <div class="space-y-1 flex-1">
+          <p class="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-2">
+            {{ card()?.label }}
+          </p>
+          <p class="text-2xl font-bold  text-surface-800">
+            {{ card()?.value }}
+          </p>
+          <p class="text-xs text-muted-foreground mt-1">
+            {{ card()?.description }}
+          </p>
+        </div>
+        <div 
+          [pClass]="getIconClasses()"
+          style="width: 2.25rem; height: 2.25rem;">
+          <i [class]="'pi ' + card()?.icon + ' ' + getIconColor()" style="font-size: 1.125rem"></i>
+        </div>
+      </div>
+    </p-card>

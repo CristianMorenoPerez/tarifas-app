@@ -1,0 +1,40 @@
+ :host {
+      display: block;
+      height: 100%;
+    }
+
+    .text-muted-foreground {
+      color: var(--text-color-secondary);
+    }
+
+    /* Color schemes */
+    .icon-bg-primary { background-color: #dbeafe; }
+    .icon-color-primary { color: #2563eb; }
+    
+    .icon-bg-blue { background-color: #dbeafe; }
+    .icon-color-blue { color: #2563eb; }
+    
+    .icon-bg-red { background-color: #fee2e2; }
+    .icon-color-red { color: #dc2626; }
+    
+    .icon-bg-green { background-color: #dcfce7; }
+    .icon-color-green { color: #16a34a; }
+    
+    .icon-bg-purple { background-color: #f3e8ff; }
+    .icon-color-purple { color: #9333ea; }
+    
+    .icon-bg-orange { background-color: #ffedd5; }
+    .icon-color-orange { color: #ea580c; }
+
+    ::ng-deep .p-card {
+      box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+      height: 100%;
+    }
+
+    ::ng-deep .p-card .p-card-body {
+      padding: 1.25rem;
+    }
+
+    ::ng-deep .p-card .p-card-content {
+      padding: 0;
+    }
