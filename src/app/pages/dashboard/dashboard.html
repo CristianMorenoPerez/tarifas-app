@@ -1,0 +1,66 @@
+<div class="container mx-auto  p-4">
+    <div class="flex flex-col md:flex-row mb-5 gap-3 w-full">
+        <div class="flex-1 text-center md:text-start">
+            <h2 class="text-3xl  font-semibold text-gray-700">Bienvenido, al monitor de tarifas de energia</h2>
+            <p class="text-md text-gray-500">Aquí puedes ver un resumen de tus datos y métricas clave.</p>
+        </div>
+      <app-reload-etl></app-reload-etl>
+       
+      
+    </div>
+    
+  <!-- En tu componente donde muestras las cards -->
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  @if (isLoading()) {
+    <!-- ✅ Skeleton Cards -->
+    @for (i of [1,2,3,4]; track i) {
+      <p-card [pClass]="'border-surface-border/60 h-full'">
+        <div class="flex items-start justify-between">
+          <div class="space-y-1 flex-1">
+            <p-skeleton width="60%" height="1rem" class="mb-2" />
+            <p-skeleton width="40%" height="2rem" class="mb-2" />
+            <p-skeleton width="70%" height="0.75rem" />
+          </div>
+          <p-skeleton shape="circle" size="2.25rem" />
+        </div>
+      </p-card>
+    }
+  } @else if (error()) {
+    <div class="col-span-full">
+      <p class="text-red-600">Error: {{ error()?.message }}</p>
+    </div>
+  } @else if (dashboardData()) {
+    <!-- ✅ Cards reales -->
+    @for (card of dashboardData(); track card.label) {
+      <app-kpi-card [card]="card" />
+    }
+  }
+</div>
+    
+    <app-filter (onComercializadora)="onComercializadora($event)" (onAnio)="onAnio($event)" (onNivel)="onNivel($event)" (onPeriodo)="onPeriodo($event)"></app-filter>
+
+     <div class="card flex justify-start gap-3 mt-5">
+           <p-selectButton 
+      [options]="stateOptions" 
+      [(ngModel)]="selectedView"
+      (ngModelChange)="onViewChange($event)"
+      optionLabel="label" 
+      optionValue="value">
+      <ng-template #item let-item>
+        <i [class]="item.icon"></i>
+        <span class="ml-2">{{ item.label }}</span>
+      </ng-template>
+    </p-selectButton>
+        </div>
+
+
+            <div class="bg-white rounded-lg shadow p-6">
+      @if (selectedView() === 'table') {
+        <!-- Tu tabla aquí -->
+       <app-tarifas-table [paginatorParams]="tableParams()" (paramsChange)="onTableParamsChange($event)" />
+      } @else {
+        <!-- Tu gráfico aquí -->
+        <app-tarifas-chart [chartParams]="tableParams()" />
+      }
+    </div>
+</div>

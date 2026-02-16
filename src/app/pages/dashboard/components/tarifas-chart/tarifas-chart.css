@@ -1,0 +1,37 @@
+
+.tarifas-charts-container {
+  .charts-grid {
+    ::ng-deep {
+      .p-card {
+        height: 100%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+        
+        &:hover {
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .p-card-body {
+          padding: 0;
+        }
+
+        .p-card-content {
+          padding: 0;
+        }
+
+        .p-card-header {
+          border-bottom: 1px solid #e5e7eb;
+        }
+      }
+
+      canvas {
+        max-height: 400px;
+      }
+    }
+  }
+
+  .chart-wrapper {
+    position: relative;
+    width: 100%;
+  }
+}

@@ -1,0 +1,142 @@
+<!-- tarifas-charts.component.html -->
+<div class="tarifas-charts-container">
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Análisis Gráfico de Tarifas</h2>
+    <p-button 
+      icon="pi pi-refresh" 
+      [text]="true"
+      [rounded]="true"
+      severity="secondary"
+      (onClick)="reload()"
+      [loading]="isLoading()"
+      pTooltip="Recargar datos">
+    </p-button>
+  </div>
+
+
+
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      @for (i of [1,2]; track i) {
+        <p-card>
+          <div class="p-4">
+            <p-skeleton height="30px" width="60%" class="mb-4" />
+            <p-skeleton height="350px" />
+          </div>
+        </p-card>
+      }
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error(); as errorMsg) {
+    <div class="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg">
+      <div class="flex items-center">
+        <i class="pi pi-exclamation-triangle text-xl mr-3"></i>
+        <div class="flex-1">
+          <strong>Error al cargar gráficos:</strong>
+          <p class="mt-1">{{ errorMsg }}</p>
+        </div>
+        <p-button 
+          label="Reintentar"
+          [text]="true"
+          (onClick)="reload()">
+        </p-button>
+      </div>
+    </div>
+  }
+
+  <!-- Charts Grid -->
+  @if (!isLoading() && !error() && tarifas().length > 0) {
+    <div class="charts-grid grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      <!-- Gráfico de Barras - Por Comercializadora -->
+      <p-card>
+        <ng-template pTemplate="header">
+          <div class="p-4 border-b bg-gradient-to-r from-blue-50 to-blue-100">
+            <h3 class="text-lg font-semibold flex items-center text-blue-900">
+              <i class="pi pi-chart-bar mr-2 text-blue-600"></i>
+              Top 10 Comercializadoras
+            </h3>
+            <p class="text-xs text-blue-600 mt-1">Tarifa promedio por comercializadora</p>
+          </div>
+        </ng-template>
+        
+        <div class="chart-wrapper p-4" style="height: 400px;">
+          @if (barChartData(); as chartData) {
+            <p-chart 
+              type="bar" 
+              [data]="chartData" 
+              [options]="barChartOptions"
+              [style]="{ width: '100%', height: '100%' }">
+            </p-chart>
+          } @else {
+            <div class="flex flex-col items-center justify-center h-full text-gray-500">
+              <i class="pi pi-inbox text-6xl mb-3 text-gray-300"></i>
+              <p class="text-lg font-medium">No hay datos disponibles</p>
+              <p class="text-sm">Intenta ajustar los filtros</p>
+            </div>
+          }
+        </div>
+      </p-card>
+
+      <!-- Gráfico de Línea - Evolución Temporal -->
+      <p-card>
+        <ng-template pTemplate="header">
+          <div class="p-4 border-b bg-gradient-to-r from-green-50 to-green-100">
+            <h3 class="text-lg font-semibold flex items-center text-green-900">
+              <i class="pi pi-chart-line mr-2 text-green-600"></i>
+              Evolución Temporal
+            </h3>
+            <p class="text-xs text-green-600 mt-1">Tendencia de tarifas por período</p>
+          </div>
+        </ng-template>
+        
+        <div class="chart-wrapper p-4" style="height: 400px;">
+          @if (lineChartData(); as chartData) {
+            <p-chart 
+              type="line" 
+              [data]="chartData" 
+              [options]="lineChartOptions"
+              [style]="{ width: '100%', height: '100%' }">
+            </p-chart>
+          } @else {
+            <div class="flex flex-col items-center justify-center h-full text-gray-500">
+              <i class="pi pi-inbox text-6xl mb-3 text-gray-300"></i>
+              <p class="text-lg font-medium">No hay datos disponibles</p>
+              <p class="text-sm">Intenta ajustar los filtros</p>
+            </div>
+          }
+        </div>
+      </p-card>
+
+
+    </div>
+
+
+    
+  }
+
+  <!-- Empty State -->
+  @if (!isLoading() && !error() && tarifas().length === 0) {
+    <div class="bg-white rounded-lg shadow p-12 text-center">
+      <i class="pi pi-chart-line text-8xl text-gray-300 mb-4 block"></i>
+      <h3 class="text-2xl font-semibold text-gray-700 mb-2">
+        No hay datos para mostrar
+      </h3>
+      <p class="text-gray-500 mb-6">
+        No se encontraron registros con los filtros aplicados
+      </p>
+      @if (hasActiveFilters()) {
+        <p-button 
+          label="Ver todos los datos"
+          icon="pi pi-filter-slash"
+          severity="secondary"
+          (onClick)="reload()">
+        </p-button>
+      }
+    </div>
+  }
+</div>

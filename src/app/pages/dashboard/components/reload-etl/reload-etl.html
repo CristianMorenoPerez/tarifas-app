@@ -1,0 +1,32 @@
+ <div class="flex w-full md:w-auto items-center justify-center md:justify-end gap-4">
+      <!-- Última actualización -->
+      <div class="text-xs">
+        <span class="text-gray-600">Última actualización:</span>
+        @if (lastUpdate(); as update) {
+          <p class="text-sm font-semibold text-gray-800">
+            {{ formatDate(update.createdAt) }}
+          </p>
+          @if (update.totalRegistros) {
+            <p class="text-xs text-gray-500">
+              {{ update.totalRegistros }} registros
+            </p>
+          }
+        } @else if (isLoadingUpdate()) {
+          <p class="text-sm text-gray-400">Cargando...</p>
+        } @else {
+          <p class="text-sm text-gray-400">No disponible</p>
+        }
+      </div>
+
+      <!-- Botón actualizar -->
+      <p-button 
+        [outlined]="true"
+        label="Actualizar" 
+        icon="pi pi-sync" 
+        severity="primary"
+        [loading]="isRunning()"
+        [disabled]="isRunning()"
+        (onClick)="runEtl()"
+        pTooltip="Ejecutar proceso ETL para actualizar datos"
+        tooltipPosition="left" />
+    </div>

@@ -1,0 +1,40 @@
+<div class="card flex flex-col md:flex-row justify-center gap-3 pt-5">
+  @if (tarifasOptions.resource.isLoading()) {
+    <p>Cargando comercializadoras...</p>
+  } @else if (tarifasOptions.resource.error()) {
+    <p class="text-danger">Error: {{ tarifasOptions.resource.error()?.message }}</p>
+  } @else {
+    <p-select 
+      (onChange)="onChangeComercializadora($event)" 
+      [options]="comercializadoras()" 
+      [(ngModel)]="selectedComercializadora" 
+      [filter]="true" 
+      [showClear]="true"  
+      placeholder="Select a Comercializadora" 
+      class="w-full md:w-56" />
+      <p-select 
+      (onChange)="onChangeAnio($event)" 
+      [options]="anios()" 
+      [(ngModel)]="selectedAnio" 
+      [filter]="true" 
+      [showClear]="true"  
+      placeholder="Select an Año" 
+      class="w-full md:w-56" />
+      <p-select 
+      (onChange)="onChangeNivel($event)" 
+      [options]="niveles()" 
+      [(ngModel)]="selectedNivel" 
+      [filter]="true" 
+      [showClear]="true"  
+      placeholder="Select a Nivel" 
+      class="w-full md:w-56" />
+         <p-select 
+      (onChange)="onChangePeriodo($event)" 
+      [options]="periodos()" 
+      [(ngModel)]="selectedPeriodo" 
+      [filter]="true" 
+      [showClear]="true"  
+      placeholder="Select a Periodo" 
+      class="w-full md:w-56" />
+  }
+</div>

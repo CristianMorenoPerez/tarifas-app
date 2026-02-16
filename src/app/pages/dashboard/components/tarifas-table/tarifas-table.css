@@ -1,0 +1,35 @@
+ tarifas-table.css
+.tarifas-table-container {
+  padding: 1.5rem;
+  
+  .card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  ::ng-deep {
+    .p-datatable {
+      .p-datatable-thead > tr > th {
+        background-color: #f9fafb;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        color: #6b7280;
+      }
+
+    .p-datatable-tbody > tr {
+        &:hover {
+          background-color: #f9fafb;
+        }
+      }
+    }
+
+    .p-paginator {
+      border-top: 1px solid #e5e7eb;
+      padding: 1rem;
+    }
+  }
+}
