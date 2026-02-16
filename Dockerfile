@@ -12,4 +12,4 @@ RUN npm install -g serve
 
 EXPOSE 8080
 
-CMD ["serve", "-s", "dist/tarifa-app", "-l", "8080"]
+CMD ["serve", "-s", "dist/tarifa-app/browser", "-l", "8080"]
