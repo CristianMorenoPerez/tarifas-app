@@ -12,4 +12,4 @@ RUN npm install -g serve
 
 EXPOSE 8080
 
-CMD ["sh", "-c", "serve -s dist/tarifa-app/browser -l $PORT"]
+CMD ["npm", "run", "start"]

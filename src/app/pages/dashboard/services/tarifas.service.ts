@@ -6,7 +6,7 @@ import {
   PaginatorParams,
   PaginatorResponse
 } from "@core/interfaces";
-import { environment } from "src/environments/environment.development";
+import { environment } from "src/environments/environment";
 import { DashboardFiltersDto, DashboardResponse, EtlRunResponse, LastUpdateResponse, Tarifas, TarifasOptions } from "../interfaces";
 import { Value } from "@core/interfaces/value.interdace";
 import { lastValueFrom } from "rxjs";
