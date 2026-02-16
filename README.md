@@ -102,7 +102,7 @@ La aplicación está organizada en capas:
 Clona el repositorio e instala las dependencias:
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
+git clone https://github.com/CristianMorenoPerez/tarifas-app.git
 cd tarifas_app
 npm install
 ```
