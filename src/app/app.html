@@ -2,16 +2,16 @@
 <p-button label="Error" (click)="error()" />
 <p-button label="Confirm" (click)="confirm()" /> -->
 <router-outlet />
-<p-toast position="top-right" key="tr" [baseZIndex]="5000" [preventOpenDuplicates]="true">
+<p-toast position="top-center" key="tr" [baseZIndex]="5000" [preventOpenDuplicates]="true">
   <ng-template let-message pTemplate="message">
     <div class="flex flex-col items-start" style="flex: 1">
       <div class="flex items-center gap-2">
         <span [class]="message.icon"></span>
-        <span class="font-bold text-md">
+        <span class="font-bold text-sm">
           {{ message.summary }}
         </span>
       </div>
-      <div class="font-medium text-sm my-3 text-900 text-gray-900">
+      <div class="font-medium text-xs my-3 text-900 text-gray-900">
         {{ message.detail }}
       </div>
     </div>
