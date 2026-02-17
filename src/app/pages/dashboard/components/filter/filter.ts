@@ -1,5 +1,6 @@
-import { Component, computed, inject, output } from '@angular/core';
+import { Component, computed, effect, inject, output, untracked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SharedService } from '@core/services/shared.service';
 import { TarifasService } from '@pages/dashboard/services/tarifas.service';
 import { SelectModule } from 'primeng/select';
 
@@ -9,6 +10,18 @@ import { SelectModule } from 'primeng/select';
   templateUrl: './filter.html'
 })
 export class Filter {
+  
+  private readonly sharedService = inject(SharedService);
+  tarifasService = inject(TarifasService);
+  tarifasOptions = this.tarifasService.optionsResource();
+  constructor() {
+   effect(() => {
+     if (this.sharedService.triggerEtl()) { 
+      this.tarifasOptions.resource.reload();
+    
+     }
+   })
+  }
 
 
   onComercializadora = output<string>();  
@@ -16,8 +29,7 @@ export class Filter {
   onNivel = output<string>();  
   onPeriodo = output<string>();
 
-  tarifasService = inject(TarifasService);
-  tarifasOptions = this.tarifasService.optionsResource();
+  
 
   selectedComercializadora: string | null = null;
   selectedAnio: string | null = null;

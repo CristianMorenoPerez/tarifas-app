@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy, 
   Component, 
   computed, 
+  effect, 
   inject,
   input,
   output
@@ -19,6 +20,7 @@ import { TooltipModule } from 'primeng/tooltip';
 
 import { PaginatorParams } from '@core/interfaces';
 import { TarifasService } from '@pages/dashboard/services/tarifas.service';
+import { SharedService } from '@core/services/shared.service';
 
 @Component({
   selector: 'app-tarifas-table',
@@ -40,6 +42,7 @@ import { TarifasService } from '@pages/dashboard/services/tarifas.service';
 export class TarifasTable {
   private readonly tarifasService = inject(TarifasService);
   readonly Math = Math;
+
 
   // ✅ Recibe params del padre (incluye filtros + paginación)
   readonly paginatorParams = input.required<PaginatorParams>();

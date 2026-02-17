@@ -5,7 +5,8 @@ import {
   computed, 
   inject, 
   signal,
-  effect
+  effect,
+  untracked
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -22,6 +23,7 @@ import { TarifasChart } from './components/tarifas-chart/tarifas-chart';
 import { CardModule } from 'primeng/card';
 import { Skeleton, SkeletonModule } from 'primeng/skeleton';
 import { ClassNamesModule } from 'primeng/classnames'
+import { SharedService } from '@core/services/shared.service';
 
 interface ViewOption {
   label: string;
@@ -50,6 +52,35 @@ interface ViewOption {
 })
 export class Dashboard {
   private readonly tarifasService = inject(TarifasService);
+  private readonly sharedService = inject(SharedService);
+
+    // ✅ Effect: Sincronizar filtros del dashboard con la tabla
+  constructor() {
+    effect(() => {
+      const filters = this.dashboardFilters();
+      
+      this.tableParams.update(params => ({
+        offset: 0,
+        limit: params.limit,
+        ...filters
+      }));
+
+      if (this.sharedService.triggerEtl()) {
+        this.dashboardResource.resource.reload();
+        this.tableParams.set({
+          offset: 0,
+          limit: 10,
+          ...filters
+        });
+      }
+
+   
+
+      
+
+    });
+  }
+
 
   readonly stateOptions: ViewOption[] = [
     { label: 'Tabla', value: 'table', icon: 'pi pi-table' },
@@ -98,18 +129,6 @@ export class Dashboard {
     limit: 10
   });
 
-  // ✅ Effect: Sincronizar filtros del dashboard con la tabla
-  constructor() {
-    effect(() => {
-      const filters = this.dashboardFilters();
-      
-      this.tableParams.update(params => ({
-        offset: 0, // Reset a primera página cuando cambian filtros
-        limit: params.limit,
-        ...filters // Aplicar filtros
-      }));
-    });
-  }
 
   
   

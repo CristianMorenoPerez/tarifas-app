@@ -3,6 +3,7 @@ import { MessagesService } from '@core/services/messages.service';
 import { TarifasService } from '@pages/dashboard/services/tarifas.service';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
+import { SharedService } from '@core/services/shared.service';
 
 @Component({
   selector: 'app-reload-etl',
@@ -14,6 +15,7 @@ import { CommonModule } from '@angular/common';
 export class ReloadEtl implements OnInit {
   private readonly tarifasService = inject(TarifasService);
   private readonly messageService = inject(MessagesService);
+  private readonly sharedService = inject(SharedService);
 
   readonly isRunning = signal(false);
   
@@ -35,6 +37,9 @@ export class ReloadEtl implements OnInit {
       if (update) {
         console.log('📅 Última actualización cargada:', update);
         this.lastUpdate.set(update);
+          // this.sharedService.setTriggerEtl(true);
+
+      
       }
     });
   }
@@ -47,7 +52,9 @@ export class ReloadEtl implements OnInit {
   async runEtl() {
     if (this.isRunning()) return;
 
+
     this.isRunning.set(true);
+
 
     try {
       const response = await this.tarifasService.runEtl();
@@ -60,7 +67,9 @@ export class ReloadEtl implements OnInit {
           status: 'success',
           totalRegistros: response.totalRegistros
         });
-
+        // Disparar pulso del trigger para que otros componentes recarguen
+        this.sharedService.setTriggerEtl(true);
+        setTimeout(() => this.sharedService.setTriggerEtl(false), 0);
         // Mostrar toast de éxito
         this.messageService.showSuccess(
           'ETL completado', 
@@ -70,10 +79,6 @@ export class ReloadEtl implements OnInit {
         // ✅ Recargar el resource de última actualización
         this.lastUpdateResource.resource.reload();
 
-        // Emitir evento para recargar todo
-        window.dispatchEvent(new CustomEvent('etl-completed', { 
-          detail: response 
-        }));
       } else {
         this.messageService.showError('Error en ETL', response.mensaje);
       }
